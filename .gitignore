@@ -1,0 +1,80 @@
+# Virtualenvs and environment
+.env
+env/
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Byte-compiled / optimized / DLL files
+*.so
+*.egg
+*.egg-info/
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Distribution / packaging
+build/
+dist/
+.eggs/
+
+# Logs and databases
+logs/
+*.log
+/opt/astro_bot/logs/
+history/*.db
+history/*.sqlite3
+/opt/astro_bot/history/*.db
+
+# Runtime files
+*.pid
+*.seed
+*.session
+sessions/
+
+# Images, media and generated content (tracked externally or via LFS)
+images/
+tarot/
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Backups and large archives
+src/src backups/
+src/backups/
+config/Config Backups/
+
+# Secrets
+*.pem
+*.key
+.env.local
+.env.*
+
+# Ignore python cache and compiled files
+pip-log.txt
+
+# Node / frontend (if any)
+node_modules/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Ignore this repository's generated README or artifacts if any
+/README.md
+
+# Allow overriding by developer if needed
+# To track images or DBs, remove the relevant lines above or add them to git explicitly.

@@ -1,0 +1,57 @@
+max_posts_per_day: 8
+min_posts_per_day: 4
+rules:
+- type: mystic_news
+  scope: main
+  mode: weekdays
+  value:
+  - Monday
+  - Friday
+- type: horoscope
+  scope: zodiac
+  mode: daily
+  value: null
+- type: tarot_weekly
+  scope: main
+  mode: weekdays
+  value:
+  - Sunday
+- type: confession
+  scope: main
+  mode: interval
+  value: 2
+- type: alchemy_day
+  scope: zodiac
+  mode: weekdays
+  value:
+  - Monday
+  - Wednesday
+  - Friday
+  - Saturday
+- type: astro_basics
+  scope: main
+  mode: weekdays
+  value:
+  - Tuesday
+  - Thursday
+  - Saturday
+- type: zodiac_energy
+  scope: zodiac
+  mode: weekdays
+  value:
+  - Tuesday
+  - Thursday
+  - Sunday
+- type: energy_day
+  scope: main
+  mode: daily
+  value: null
+topic_sources:
+  horoscope: external
+  energy_day: external
+  zodiac_energy: external
+  mystic_news: external
+  confession: generated
+  astro_basics: generated
+  tarot_weekly: external
+  alchemy_day: external

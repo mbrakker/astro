@@ -20,11 +20,10 @@ The project already has a partial separation between generators (`gen_*`), servi
 **Why reusable:**
 - Prompt loading, prompt rendering, model invocation, and usage logging are cross-project concerns.
 
-**Needed split for universal reuse:**
-- `prompt_catalog_service` (load/version prompts only)
-- `prompt_renderer` (deterministic rendering only)
-- `openai_chat_service` (provider calls only)
-- `llm_usage_service` (token/cost accounting only)
+**Current extraction scope:**
+- Keep OpenAI access consolidated in one service module.
+- Keep prompt loading/rendering/version logging behind the existing prompt service entrypoint.
+- Keep usage accounting in the same OpenAI service module via internal helper functions.
 
 ### 2) `image_generation_service` library module
 **Extract from:**
@@ -33,10 +32,10 @@ The project already has a partial separation between generators (`gen_*`), servi
 **Why reusable:**
 - Prompt-to-image generation, caching, and downloading assets are generic for many projects.
 
-**Needed split for universal reuse:**
-- provider adapter (`openai_image_service`)
-- storage adapter (`artifact_store_service` for local/S3)
-- prompt selection moved out to generator layer or dedicated prompt service
+**Current extraction scope:**
+- Keep provider access consolidated in one image service module.
+- Move prompt selection out of the service and into generator/prompt service layers.
+- Keep storage integration behind one service contract.
 
 ### 3) `topic_repository_service` / `content_repository_service`
 **Extract from:**
@@ -48,10 +47,10 @@ The project already has a partial separation between generators (`gen_*`), servi
 **Why reusable:**
 - CRUD for scheduled content, publication ledger, and duplicate checks are reusable in any publishing workflow.
 
-**Needed split for universal reuse:**
-- one DB access service per storage system (SQLite now, later Postgres)
-- repository methods returning typed contracts only
-- remove all CLI parsing from service modules
+**Current extraction scope:**
+- Keep repository access consolidated per storage system.
+- Ensure repository methods return typed contracts only.
+- Remove CLI parsing from service modules.
 
 ### 4) `messaging_delivery_service` library module
 **Extract from:**
@@ -62,10 +61,9 @@ The project already has a partial separation between generators (`gen_*`), servi
 **Why reusable:**
 - Channel resolution + bot send + owner alerting is a common integration pattern.
 
-**Needed split for universal reuse:**
-- `channel_registry_service`
-- `telegram_delivery_service`
-- `notification_service` (generic, provider-agnostic interface)
+**Current extraction scope:**
+- Keep Telegram provider access consolidated in one service module.
+- Keep channel resolution and notifications as explicit service contracts without role mixing.
 
 ### 5) `news_ingestion_service` library module
 **Extract from (currently inside generator):**
@@ -74,9 +72,9 @@ The project already has a partial separation between generators (`gen_*`), servi
 **Why reusable:**
 - RSS parsing, keyword filtering, html cleaning, image harvesting can serve any news pipeline.
 
-**Needed split for universal reuse:**
-- move all network/feed parsing out of generator into service
-- generator keeps only “how to transform fetched item into domain post”
+**Current extraction scope:**
+- Move all network/feed parsing out of generators and into one ingestion service module.
+- Keep generator responsibility limited to domain transformation and validation.
 
 ### 6) `astronomy_snapshot_service` library module
 **Extract from:**
@@ -85,10 +83,10 @@ The project already has a partial separation between generators (`gen_*`), servi
 **Why reusable:**
 - Browser-driven astronomy snapshots can be reused in educational/media apps.
 
-**Needed split for universal reuse:**
-- URL builder (pure utility)
-- browser capture service
-- output storage abstraction
+**Current extraction scope:**
+- Keep browser-driven external I/O in one astronomy snapshot service module.
+- Keep deterministic URL composition in utilities.
+- Keep output storage behind one service contract.
 
 ## Modules that should remain domain-specific (not primary extraction targets)
 
@@ -113,6 +111,7 @@ The project already has a partial separation between generators (`gen_*`), servi
 4. **Create provider interfaces for portability**
    - `LLMProvider`, `ImageProvider`, `MessagingProvider`, `TopicRepository`, `ArtifactStore`.
    - Default implementations for current stack; alternative adapters per project.
+   - Preserve one-service-per-external-system module boundaries.
 
 5. **Adopt typed error taxonomy**
    - Base `AppError` with `code`, `retryable`, `severity`, `context`.

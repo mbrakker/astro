@@ -11,3 +11,9 @@ The audit includes:
 - domain-specific modules to keep local,
 - mandatory architecture changes (contracts, role boundaries, adapters, error taxonomy, structured logs),
 - migration sequence.
+
+## Standalone tarot extraction
+
+The `tarot/` directory is a self-contained repository payload containing the
+complete tarot database and portable lookup/draw API. See [`tarot/README.md`](tarot/README.md)
+for installation, architecture, and usage details.

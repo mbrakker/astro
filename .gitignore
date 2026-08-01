@@ -41,7 +41,7 @@ sessions/
 
 # Images, media and generated content (tracked externally or via LFS)
 images/
-tarot/
+# The standalone tarot package and its required artwork are tracked here.
 
 # IDEs
 .vscode/
